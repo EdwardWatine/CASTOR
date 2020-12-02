@@ -4,11 +4,6 @@ using System.Text;
 
 namespace CASTOR2.Core.Base.Interfaces
 {
-    public interface IVariable
-    {
-        bool Variable { get; }
-        string Display { get; }
-    }
     public interface IScalar
     {
 
@@ -20,10 +15,5 @@ namespace CASTOR2.Core.Base.Interfaces
     public interface INumeric : IEquatable<double>, IEquatable<decimal>, IEquatable<long>, IEquatable<ulong>
     {
 
-    }
-    public interface IChain<out T> where T : MathObject
-    {
-        T Simplify();
-        T Cast();
     }
 }

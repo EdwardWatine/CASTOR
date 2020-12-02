@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
 
-namespace CASTOR2.Core.Base.NumberTypes
+namespace CASTOR2.Core.Base.NumberTypes.Rational
 {
-    public abstract class RationalBase : MathObject, Interfaces.IScalar
-    {
-    }
-    public class RationalVariable : RationalBase, Interfaces.IVariable
-    {
-        public bool Variable => throw new NotImplementedException();
-
-        public string Display => throw new NotImplementedException();
-    }
     public class Rational : RationalBase, IConvertible, Interfaces.IReal
     {
         public static int LCM(int num1, int num2)
@@ -84,37 +74,45 @@ namespace CASTOR2.Core.Base.NumberTypes
 
             return new Rational((n * denominator + numerator) * sign, denominator, 0, true);
         }
-        public Rational(int integer) : this(integer, 1, 0, true) 
+        public Rational(int integer) : this(integer, 1, 0, true)
         { }
         public Rational(int numerator, int denominator) : this(numerator, denominator, 0, false)
         { }
-        public Rational(int numerator, int denominator, int exponent = 0, bool coprime = false)
+        public Rational(int numerator, int denominator, int exponent = 0, bool simplified = false)
         {
+            Simplified = simplified;
             Exponent = exponent;
+            Numerator = numerator;
+            Denominator = denominator;
+        }
+        public Rational(Rational numerator, Rational denominator) : this(LCM(numerator.Numerator, denominator.Denominator),
+                                                                         LCM(numerator.Denominator, denominator.Numerator),
+                                                                         numerator.Exponent - denominator.Exponent, numerator.Simplified && denominator.Simplified)
+        { }
+        public override RationalBase Simplify()
+        {
+            if (Simplified)
+            {
+                return this;
+            }
+            int numerator = Numerator;
+            int denominator = Denominator;
+            int exponent = Exponent;
             while (numerator % 10 == 0)
             {
                 numerator %= 10;
-                Exponent += 1;
+                exponent += 1;
             }
             while (denominator % 10 == 0)
             {
                 denominator %= 10;
-                Exponent -= 1;
-            }
-            if (coprime)
-            {
-                Numerator = numerator * Math.Sign(denominator);
-                Denominator = denominator * Math.Sign(denominator);
-                return;
+                exponent -= 1;
             }
             int gcd = GCD(numerator, denominator);
-            Numerator = numerator * Math.Sign(denominator) / gcd;
-            Denominator = denominator * Math.Sign(denominator) / gcd;
+            numerator = numerator * Math.Sign(denominator) / gcd;
+            denominator = denominator * Math.Sign(denominator) / gcd;
+            return new Rational(numerator, denominator, exponent, true);
         }
-        public Rational(Rational numerator, Rational denominator) : this(LCM(numerator.Numerator, denominator.Denominator),
-                                                                         LCM(numerator.Denominator, denominator.Numerator), 
-                                                                         numerator.Exponent - denominator.Exponent, true)
-        { }
         public readonly int Numerator;
         public readonly int Denominator;
         public readonly int Exponent;

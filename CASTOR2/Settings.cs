@@ -14,6 +14,5 @@ namespace CASTOR2
         {
             DefaultSystem = new System();
         }
-        public static bool AutoSimplify = false;
     }
 }
