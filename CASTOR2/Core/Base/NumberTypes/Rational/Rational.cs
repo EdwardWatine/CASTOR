@@ -27,6 +27,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
             }
             return x + y;
         }
+        static Rational()
+        {
+            Add.SimplificationLookup[typeof(Rational)] = new Func<RationalBase, RationalBase, RationalBase>((l, r) => AddRational((Rational)l, (Rational)r));
+        }
         public static Rational FromDouble(double value, double accuracy = 1e-6)
         {
             if (accuracy <= 0.0 || accuracy >= 1.0)
@@ -134,7 +138,7 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
         {
             return (double)Numerator / Denominator * Math.Pow(10, Exponent);
         }
-        public static Rational operator +(Rational left, Rational right)
+        private static Rational AddRational(Rational left, Rational right)
         {
             int lcm = LCM(left.Denominator, right.Denominator);
             int rm = lcm / right.Denominator;
@@ -151,6 +155,18 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
                 max = right.Exponent;
             }
             return new Rational(left.Numerator * lm + right.Numerator * rm, lcm, max, false);
+        }
+        public static Rational operator +(Rational left, Rational right)
+        {
+            return AddRational(left, right);
+        }
+        public static bool operator ==(Rational left, Rational right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Rational left, Rational right)
+        {
+            return !left.Equals(right);
         }
         public TypeCode GetTypeCode()
         {
@@ -264,7 +280,7 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
 
         public bool Equals(Rational other)
         {
-            return Numerator == other.Numerator && Denominator == other.Denominator && Exponent == other.Exponent;
+            return Numerator * other.Denominator == Denominator * other.Numerator && Exponent == other.Exponent;
         }
 
         public int CompareTo(long other)

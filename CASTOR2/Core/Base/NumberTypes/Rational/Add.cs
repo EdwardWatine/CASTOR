@@ -8,7 +8,7 @@ using CASTOR2.Core.Base.TypeAliasSubclasses;
 namespace CASTOR2.Core.Base.NumberTypes.Rational
 {
     using SimpFunc = Func<RationalBase, RationalBase, RationalBase>;
-    class Add : RationalBase, IBinaryOperation<RationalBase, RationalBase, RationalBase>
+    public class Add : RationalBase, IBinaryOperation<RationalBase, RationalBase, RationalBase>
     {
         public Add(params RationalBase[] arguments)
         {
@@ -50,7 +50,7 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
                     SimplifyArgument(NewArguments, Types, argument);
                 }
             }
-            if (NewArguments.Count == 0)
+            if (NewArguments.Count == 1)
             {
                 return NewArguments[0];
             }
