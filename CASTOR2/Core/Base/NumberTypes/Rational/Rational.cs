@@ -6,6 +6,8 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
 {
     public class Rational : RationalBase, IConvertible, Interfaces.IReal
     {
+        public static Rational Zero = new Rational(0, 1, 0, true);
+        public static Rational One = new Rational(1, 1, 0, true);
         public static int LCM(int num1, int num2)
         {
             return num1 * num2 / GCD(num1, num2);
@@ -29,7 +31,15 @@ namespace CASTOR2.Core.Base.NumberTypes.Rational
         }
         static Rational()
         {
-            Add.SimplificationLookup[typeof(Rational)] = new Func<RationalBase, RationalBase, RationalBase>((l, r) => AddRational((Rational)l, (Rational)r));
+            Add.SimplificationLookup.SetSimplification(typeof(Rational), typeof(Rational), (l, r) => AddRational((Rational)l, (Rational)r));
+            Add.SimplificationLookup.SetShortcut(typeof(Rational), (rational, other) =>
+            {
+                if ((Rational)rational == Zero)
+                {
+                    return other;
+                }
+                return null;
+            });
         }
         public static Rational FromDouble(double value, double accuracy = 1e-6)
         {

@@ -4,10 +4,6 @@ using System.Text;
 
 namespace CASTOR2.Core.Base.Interfaces
 {
-    public interface IScalar
-    {
-
-    }
     public interface IReal : INumeric, IComparable<double>, IComparable<decimal>, IComparable<long>, IComparable<ulong>
     {
 

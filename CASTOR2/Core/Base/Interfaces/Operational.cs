@@ -6,14 +6,20 @@ namespace CASTOR2.Core.Base.Interfaces
 {
     public interface IVariable
     {
-        bool Variable { get; }
+        bool Constant { get; }
         string Display { get; }
     }
-    public interface IBinaryOperation<TLeft, TRight, out TOut> where TLeft : MathObject where TRight : MathObject where TOut : MathObject
+    public interface IBinaryOperation<TLeft, TRight, TOut>
     {
-        TOut Simplify();
         IList<TLeft> LeftArguments { get; }
         IList<TRight> RightArguments { get; }
-
+    }
+    public interface ICommutativeOperation<TArgument>
+    {
+        IReadOnlyCollection<TArgument> Arguments { get; }
+    }
+    public interface IMathType<T>
+    {
+        T Simplify();
     }
 }

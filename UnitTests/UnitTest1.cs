@@ -11,6 +11,7 @@ namespace UnitTests
         public void RationalTests()
         {
             Assert.AreEqual(0.5 + new Rational(1), new Rational(6, 4));
+            Assert.AreEqual(new Add(Rational.Zero, new Rational(1)).Simplify().ToString(), "1");
             Assert.AreEqual(new Add(new Rational(1), new Rational(2)).Simplify().ToString(), "3");
         }
     }
