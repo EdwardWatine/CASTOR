@@ -1,5 +1,5 @@
 ﻿using System;
-using CASTOR2.Core.Base.NumberTypes.Rational;
+using CASTOR2.Core.Base.NumberTypes.Real;
 namespace CASTOR_Executable
 {
     class Program

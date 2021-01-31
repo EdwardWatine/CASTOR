@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CASTOR2.Core.Base.NumberTypes.Rational;
+using CASTOR2.Core.Base.NumberTypes.Real;
 
 namespace UnitTests
 {

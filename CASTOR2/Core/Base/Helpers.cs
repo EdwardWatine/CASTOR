@@ -27,5 +27,9 @@ namespace CASTOR2.Core.Base
                     throw new InvalidCastException($"The type {typeof(T).Name} cannot be compared to the type {numeric.GetType().Name}");
             }
         }
+        public static IEnumerable<T> Yield<T>(this T item)
+        {
+            yield return item;
+        }
     }
 }

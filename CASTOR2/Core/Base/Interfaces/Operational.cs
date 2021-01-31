@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
 
 namespace CASTOR2.Core.Base.Interfaces
@@ -9,14 +10,25 @@ namespace CASTOR2.Core.Base.Interfaces
         bool Constant { get; }
         string Display { get; }
     }
-    public interface IBinaryOperation<TLeft, TRight, TOut>
+    public interface IOperation<TLeft, TRight>
     {
-        IList<TLeft> LeftArguments { get; }
-        IList<TRight> RightArguments { get; }
+        TLeft Left { get; }
+        TRight Right { get; }
     }
-    public interface ICommutativeOperation<TArgument>
+    public interface ICommutativeOperation<TInOut, TOther>
     {
-        IReadOnlyCollection<TArgument> Arguments { get; }
+        TInOut InOut { get; }
+        TOther Other { get; }
+    }
+    public interface IAssociativeOperation<TArgument> : IAssociativeOperation<TArgument, TArgument>
+    {
+        new IImmutableList<TArgument> Arguments { get; }
+    }
+    public interface IAssociativeOperation<TInOut, TOther>
+    {
+        IImmutableList<TOther> Arguments { get; }
+        TInOut Argument { get; }
+        TOther JoinArguments();
     }
     public interface IMathType<T>
     {
