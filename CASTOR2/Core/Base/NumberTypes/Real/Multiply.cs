@@ -7,26 +7,28 @@ using CASTOR2.Core.Base.Interfaces;
 
 namespace CASTOR2.Core.Base.NumberTypes.Real
 {
-    public class Multiply : RealBase, IAssociativeOperation<RealBase>, INumericSplit<Numeric.Numeric, RealBase>
+    public class Multiply : RealBase, IAssociativeOperation<RealBase>
     {
         public Multiply(params RealBase[] arguments)
         {
             Arguments = arguments.ToImmutableList();
         }
-        public Multiply(IList<RealBase> arguments, bool simplified = false)
+        public Multiply(IEnumerable<RealBase> arguments, bool simplified = false)
         {
             Arguments = arguments.ToImmutableList();
             Simplified = simplified;
         }
         public IImmutableList<RealBase> Arguments { get; }
-        public IImmutableDictionary<Type, List<int>> TypeMappings { get; }
+
+        public RealBase Argument => null;
+
         public override RealBase Simplify()
         {
             if (Simplified)
             {
                 return this;
             }
-            List<RealBase> newArguments = OperationHelpers.SimplifyCommutativeOperation(Simplifications, this);
+            var newArguments = Arguments;
             if (newArguments.Count == 1)
             {
                 return newArguments[0];
@@ -40,6 +42,20 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         public override bool Equals(object obj)
         {
             return obj is Multiply mul && ContainedVariables == mul.ContainedVariables && Arguments == mul.Arguments;
+        }
+
+        public RealBase JoinArguments()
+        {
+            return this;
+        }
+
+        public override IEnumerable<RealBase> AsAddition()
+        {
+            throw new NotImplementedException();
+        }
+        public override string ToString()
+        {
+            return string.Join("*", Arguments);
         }
     }
 }

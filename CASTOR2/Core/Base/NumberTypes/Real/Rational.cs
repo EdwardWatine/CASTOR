@@ -10,7 +10,7 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
     {
         public static Rational Zero = new Rational(0, 1, 0, true);
         public static Rational One = new Rational(1, 1, 0, true);
-        public static int LCM(int num1, int num2)
+        private static int LCM(int num1, int num2)
         {
             return num1 * num2 / GCD(num1, num2);
         }
@@ -86,10 +86,6 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
             Numerator = numerator;
             Denominator = denominator;
         }
-        public Rational(Rational numerator, Rational denominator) : this(LCM(numerator.Numerator, denominator.Denominator),
-                                                                         LCM(numerator.Denominator, denominator.Numerator),
-                                                                         numerator.Exponent - denominator.Exponent, numerator.Simplified && denominator.Simplified)
-        { }
         public override RealBase Simplify()
         {
             if (Simplified)
@@ -159,11 +155,46 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         }
         public Rational Multiply(Rational other)
         {
-            return new Rational(Numerator * other.Numerator, Denominator * other.Denominator, Exponent + other.Exponent, false);
+            int hcf1 = GCD(Numerator, other.Denominator);
+            int hcf2 = GCD(Denominator, other.Numerator);
+            int hcff = hcf1 * hcf2;
+            return new Rational(Numerator * other.Numerator / hcff, Denominator * other.Denominator / hcff, Exponent + other.Exponent, Simplified && other.Simplified);
         }
         public override IEnumerable<RealBase> AsAddition()
         {
             return this.Yield();
+        }
+        public static Rational operator +(Rational left, Rational right)
+        {
+            return left.Add(right);
+        }
+        public static Rational operator -(Rational left, Rational right)
+        {
+            return left + -right;
+        }
+        public static Rational operator -(Rational rational)
+        {
+            return new Rational(-rational.Numerator, rational.Denominator, rational.Exponent, true);
+        }
+        public static Rational operator *(Rational left, Rational right)
+        {
+            return left.Multiply(right);
+        }
+        private Rational Flip(int exp)
+        {
+            return new Rational(Denominator, Numerator, exp, Simplified);
+        }
+        public static Rational operator /(Rational left, Rational right)
+        {
+            return left.Multiply(right.Flip(-right.Exponent));
+        }
+        public static bool operator ==(Rational left, Rational right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Rational left, Rational right)
+        {
+            return !left.Equals(right);
         }
     }
 }

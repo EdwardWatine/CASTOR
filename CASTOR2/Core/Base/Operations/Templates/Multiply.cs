@@ -6,6 +6,7 @@ using CASTOR2.Core.Base.NumberTypes.Real;
 
 namespace CASTOR2.Core.Base.Operations
 {
+    /**
     public class Multiplication<TArgument, TExplicit, TNumeric, TMultiply> where TExplicit : TArgument, IAdd<TExplicit>, IEquatable<TExplicit> 
         where TArgument : IAdd<TArgument> where TNumeric : INumeric, IAdd<TNumeric>, IEquatable<TNumeric>
         where TMultiply : TArgument, IAssociativeOperation<TArgument>, INumericSplit<TNumeric, TArgument>
@@ -70,5 +71,5 @@ namespace CASTOR2.Core.Base.Operations
             }
             return newArgs;
         }
-    }
+    }**/
 }

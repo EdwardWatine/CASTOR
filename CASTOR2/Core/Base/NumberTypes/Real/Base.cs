@@ -7,7 +7,7 @@ using CASTOR2.Core.Base.Operations.Interfaces;
 
 namespace CASTOR2.Core.Base.NumberTypes.Real
 {
-    public abstract class RealBase : MathObject, IMathType<RealBase>, IAdd<RealBase>, IMultiply<RealBase>, IField<RealBase>
+    public abstract class RealBase : MathObject, IMathType<RealBase>, IField<RealBase>
     {
         public RealBase Add(RealBase right)
         {
@@ -21,5 +21,22 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
             return new Multiply(this, right);
         }
         public abstract RealBase Simplify();
+
+        public static RealBase operator +(RealBase left, RealBase right)
+        {
+            return left.Add(right);
+        }
+        public static RealBase operator -(RealBase left, RealBase right)
+        {
+            return left.Add(-right);
+        }
+        public static RealBase operator -(RealBase real)
+        {
+            return new Rational(-1).Multiply(real);
+        }
+        public static RealBase operator *(RealBase left, RealBase right)
+        {
+            return left.Multiply(right);
+        }
     }
 }

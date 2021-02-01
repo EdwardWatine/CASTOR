@@ -5,7 +5,7 @@ using CASTOR2.Core.Base.Interfaces;
 using CASTOR2.Core.Base.NumberTypes.Real;
 
 namespace CASTOR2.Core.Base.Operations.Templates
-{
+{/***
     public class ChainedMultiplication<TArgument, TExplicit, TNumeric, TMultiply> where TExplicit : TArgument, IAdd<TExplicit>, IEquatable<TExplicit> 
         where TArgument : IAdd<TArgument> where TNumeric : INumeric, IAdd<TNumeric>, IEquatable<TNumeric>
         where TMultiply : TArgument, IAssociativeOperation<TArgument>, INumericSplit<TNumeric, TArgument>
@@ -70,5 +70,5 @@ namespace CASTOR2.Core.Base.Operations.Templates
             }
             return newArgs;
         }
-    }
+    }***/
 }

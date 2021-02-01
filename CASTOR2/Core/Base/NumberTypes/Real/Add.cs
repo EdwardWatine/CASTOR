@@ -10,13 +10,13 @@ using CASTOR2.Core.Base.Operations.Templates;
 
 namespace CASTOR2.Core.Base.NumberTypes.Real
 {
-    public class Add : RealBase, IAssociativeOperation<RealBase>, IAdd<RealBase>
+    public class Add : RealBase, IAssociativeOperation<RealBase>
     {
         public Add(params RealBase[] arguments)
         {
             Arguments = arguments.ToImmutableList();
         }
-        public Add(IList<RealBase> arguments, bool simplified = false)
+        public Add(IEnumerable<RealBase> arguments, bool simplified = false)
         {
             Arguments = arguments.ToImmutableList();
             Simplified = simplified;
@@ -48,12 +48,6 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         {
             return obj is Add add && ContainedVariables == add.ContainedVariables && Arguments == add.Arguments;
         }
-
-        RealBase IAdd<RealBase>.Add(RealBase right)
-        {
-            return new Add(this, right);
-        }
-
         public override IEnumerable<RealBase> AsAddition()
         {
             return Arguments;
@@ -62,6 +56,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         public RealBase JoinArguments()
         {
             return this;
+        }
+        public override string ToString()
+        {
+            return string.Join("+", Arguments);
         }
     }
 }

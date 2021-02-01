@@ -6,7 +6,7 @@ namespace CASTOR_Executable
     {
         static void Main(string[] args)
         {
-            Console.WriteLine((0.5 + new Rational(1, 6)).Simplify().ToString());
+            Console.WriteLine((0.5 + new Rational(1, 6) - new Rational(2, 3)).Simplify().ToString());
         }
     }
 }

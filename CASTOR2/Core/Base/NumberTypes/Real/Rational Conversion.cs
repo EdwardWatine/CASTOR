@@ -134,25 +134,12 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         }
         public bool Equals(Rational other)
         {
-            return (double)this == other;
+            return ((double)this) == ((double)other);
         }
 
         public int CompareTo(Rational other)
         {
             return this > other ? 1 : (ulong)this < other ? -1 : 0;
-        }
-
-        public static Rational operator +(Rational left, Rational right)
-        {
-            return left.Add(right);
-        }
-        public static bool operator ==(Rational left, Rational right)
-        {
-            return left.Equals(right);
-        }
-        public static bool operator !=(Rational left, Rational right)
-        {
-            return !left.Equals(right);
         }
         public static explicit operator Rational(ulong ul)
         {
