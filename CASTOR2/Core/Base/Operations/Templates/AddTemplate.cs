@@ -56,11 +56,11 @@ namespace CASTOR2.Core.Base.Operations.Templates
                 {
                     if (kvp.Value.Equals(One))
                     {
-                        newArgs.Add(kvp.Key);
+                        newArgs.InsertSorted(kvp.Key);
                     }
                     else
                     {
-                        newArgs.Add(kvp.Key.Multiply(kvp.Value));
+                        newArgs.InsertSorted(kvp.Key.Multiply(kvp.Value));
                     }
                 }
             }
@@ -127,11 +127,11 @@ namespace CASTOR2.Core.Base.Operations.Templates
                 {
                     if (kvp.Value.Equals(One))
                     {
-                        newArgs.Add(kvp.Key);
+                        newArgs.InsertSorted(kvp.Key);
                     }
                     else
                     {
-                        newArgs.Add(kvp.Key.Multiply(kvp.Value));
+                        newArgs.InsertSorted(kvp.Key.Multiply(kvp.Value));
                     }
                 }
             }

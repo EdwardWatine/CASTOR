@@ -160,10 +160,6 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
             int hcff = hcf1 * hcf2;
             return new Rational(Numerator * other.Numerator / hcff, Denominator * other.Denominator / hcff, Exponent + other.Exponent, Simplified && other.Simplified);
         }
-        public override IEnumerable<RealBase> AsAddition()
-        {
-            return this.Yield();
-        }
         public static Rational operator +(Rational left, Rational right)
         {
             return left.Add(right);

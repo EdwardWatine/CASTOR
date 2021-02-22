@@ -9,14 +9,17 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
 {
     public abstract class RealBase : MathObject, IMathType<RealBase>, IField<RealBase>
     {
-        public RealBase Add(RealBase right)
+        public virtual RealBase Add(RealBase right)
         {
             return new Add(this, right);
         }
 
-        public abstract IEnumerable<RealBase> AsAddition();
+        public virtual IEnumerable<RealBase> AsAddition()
+        {
+            return this.Yield();
+        }
 
-        public RealBase Multiply(RealBase right)
+        public virtual RealBase Multiply(RealBase right)
         {
             return new Multiply(this, right);
         }
@@ -37,6 +40,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         public static RealBase operator *(RealBase left, RealBase right)
         {
             return left.Multiply(right);
+        }
+        public static implicit operator RealBase(Base.Variable variable)
+        {
+            return (Variable)variable;
         }
     }
 }
