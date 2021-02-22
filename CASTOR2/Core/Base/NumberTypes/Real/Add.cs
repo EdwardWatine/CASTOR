@@ -12,6 +12,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
 {
     public class Add : RealBase, IAssociativeOperation<RealBase>
     {
+        static Add()
+        {
+            Operations.OperatorPrecendence.SetPrecedence(typeof(Add), Operations.Precedence.Addition);
+        }
         public Add(params RealBase[] arguments)
         {
             Arguments = arguments.ToImmutableList();
@@ -46,7 +50,8 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         }
         public override bool Equals(object obj)
         {
-            return obj is Add add && ContainedVariables == add.ContainedVariables && Arguments == add.Arguments;
+            return obj != null && obj.ToString() == ToString() && obj is Add add &&
+                ContainedVariables == add.ContainedVariables && Arguments == add.Arguments;
         }
         public override IEnumerable<RealBase> AsAddition()
         {

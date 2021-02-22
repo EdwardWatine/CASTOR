@@ -9,6 +9,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
 {
     public class Multiply : RealBase, IAssociativeOperation<RealBase>
     {
+        static Multiply()
+        {
+            Operations.OperatorPrecendence.SetPrecedence(typeof(Multiply), Operations.Precedence.Multiplication);
+        }
         public Multiply(params RealBase[] arguments)
         {
             Arguments = arguments.ToImmutableList();
@@ -41,7 +45,8 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         }
         public override bool Equals(object obj)
         {
-            return obj is Multiply mul && ContainedVariables == mul.ContainedVariables && Arguments == mul.Arguments;
+            return obj != null && obj.ToString() == ToString() &&obj is Multiply mul && 
+                ContainedVariables == mul.ContainedVariables && Arguments == mul.Arguments;
         }
 
         public RealBase JoinArguments()
