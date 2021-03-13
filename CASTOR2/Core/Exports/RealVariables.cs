@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using CASTOR2.Core.Base;
-
+using CASTOR2.Core.Base.NumberTypes.Real;
 namespace CASTOR2.Core.Exports
 {
-    public static class Variables
+    public static class RealVariables
     {
         public static readonly Variable A = new Variable("A");
         public static readonly Variable B = new Variable("B");

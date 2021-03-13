@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
 
 namespace CASTOR2.Core.Base.NumberTypes.Real
@@ -12,14 +12,15 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         {
             Display = display;
             Constant = constant;
-        }
-        public static implicit operator Variable(Base.Variable variable)
-        {
-            return new Variable(variable.Display, variable.Constant);
+            ContainedVariables = ImmutableHashSet.Create<Interfaces.IVariable>(this);
         }
         public override RealBase Simplify()
         {
             return this;
+        }
+        public override string ToString()
+        {
+            return Display;
         }
     }
 }

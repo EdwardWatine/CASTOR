@@ -41,9 +41,13 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         {
             return left.Multiply(right);
         }
-        public static implicit operator RealBase(Base.Variable variable)
+        public static implicit operator RealBase(int nt)
         {
-            return (Variable)variable;
+            return new Rational(nt);
+        }
+        public static implicit operator RealBase(double db)
+        {
+            return Rational.FromDouble(db);
         }
     }
 }

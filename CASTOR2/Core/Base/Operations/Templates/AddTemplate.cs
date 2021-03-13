@@ -91,10 +91,10 @@ namespace CASTOR2.Core.Base.Operations.Templates
                     continue;
                 }
                 TExplicit numeric = One;
-                TField symbolic = numeric;
+                TField symbolic = argument;
                 if (argument is TMultiply multiply)
                 {
-                    TField coefficientCount = null;
+                    TField termSymbol = null;
                     bool found = false;
                     foreach (TField fieldObj in multiply.Arguments)
                     {
@@ -105,10 +105,10 @@ namespace CASTOR2.Core.Base.Operations.Templates
                         }
                         else
                         {
-                            coefficientCount = coefficientCount?.Multiply(coefficientCount) ?? coefficientCount;
+                            termSymbol = termSymbol?.Multiply(fieldObj) ?? fieldObj;
                         }
                     }
-                    symbolic = coefficientCount;
+                    symbolic = termSymbol;
                 }
                 if (!coefficientMapping.ContainsKey(symbolic))
                 {

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Immutable;
 using System.Text;
 using CASTOR2.Core.Base.Interfaces;
+using System.Linq;
 
 namespace CASTOR2.Core.Base.NumberTypes.Real
 {
@@ -15,11 +16,11 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         }
         public Multiply(params RealBase[] arguments)
         {
-            Arguments = arguments.ToImmutableList();
+            Arguments = arguments.SortMathObjects().ToImmutableList();
         }
         public Multiply(IEnumerable<RealBase> arguments, bool simplified = false)
         {
-            Arguments = arguments.ToImmutableList();
+            Arguments = arguments.SortMathObjects().ToImmutableList();
             Simplified = simplified;
         }
         public IImmutableList<RealBase> Arguments { get; }
@@ -33,6 +34,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
                 return this;
             }
             var newArguments = Arguments;
+            if (newArguments.Count == 0)
+            {
+                return Rational.One;
+            }
             if (newArguments.Count == 1)
             {
                 return newArguments[0];
@@ -45,8 +50,8 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         }
         public override bool Equals(object obj)
         {
-            return obj != null && obj.ToString() == ToString() &&obj is Multiply mul && 
-                ContainedVariables == mul.ContainedVariables && Arguments == mul.Arguments;
+            return obj != null && obj.ToString() == ToString() && obj is Multiply mul &&
+                ContainedVariables.SetEquals(mul.ContainedVariables) && Arguments.SequenceEqual(mul.Arguments);
         }
 
         public RealBase JoinArguments()
@@ -56,7 +61,7 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
 
         public override IEnumerable<RealBase> AsAddition()
         {
-            throw new NotImplementedException();
+            return this.Yield(); // CHANGE FOR INTERNAL ADDITIONS!
         }
         public override string ToString()
         {

@@ -157,6 +157,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         {
             return FromDouble(db);
         }
+        public static implicit operator Rational(int it)
+        {
+            return new Rational(it);
+        }
         public static explicit operator ulong(Rational rational)
         {
             return (ulong)rational.AsDouble();

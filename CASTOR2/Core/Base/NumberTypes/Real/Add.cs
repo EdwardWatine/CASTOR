@@ -16,14 +16,12 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         {
             Operations.OperatorPrecendence.SetPrecedence(typeof(Add), Operations.Precedence.Addition);
         }
-        public Add(params RealBase[] arguments)
-        {
-            Arguments = arguments.ToImmutableList();
-        }
+        public Add(params RealBase[] arguments) : this(arguments, false) { }
         public Add(IEnumerable<RealBase> arguments, bool simplified = false)
         {
-            Arguments = arguments.ToImmutableList();
+            Arguments = arguments.SelectMany(arg => arg.AsAddition()).SortMathObjects().ToImmutableList();
             Simplified = simplified;
+            ContainedVariables = Arguments.Select(arg => arg.ContainedVariables).Aggregate(ContainedVariables, (result, current) => result.Union(current));
         }
         public IImmutableList<RealBase> Arguments { get; }
 
@@ -38,6 +36,10 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
                 return this;
             }
             IList<RealBase> newArguments = AddTemplate.ApplyAdditionRules(Arguments.Select(real => real.Simplify()));
+            if (newArguments.Count == 0)
+            {
+                return Rational.Zero;
+            }
             if (newArguments.Count == 1)
             {
                 return newArguments[0];
@@ -51,7 +53,7 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         public override bool Equals(object obj)
         {
             return obj != null && obj.ToString() == ToString() && obj is Add add &&
-                ContainedVariables == add.ContainedVariables && Arguments == add.Arguments;
+                ContainedVariables.SetEquals(add.ContainedVariables) && Arguments.SequenceEqual(add.Arguments);
         }
         public override IEnumerable<RealBase> AsAddition()
         {

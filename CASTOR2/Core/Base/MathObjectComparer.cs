@@ -52,7 +52,7 @@ namespace CASTOR2.Core.Base
         public int Compare(MathObject x, MathObject y)
         {
             string sx = x.ToString(), sy = y.ToString();
-            int len = sx.Length > sy.Length ? sx.Length : sy.Length;
+            int len = sx.Length > sy.Length ? sy.Length : sx.Length;
             for (int i = 0; i < len; i++)
             {
                 char cx = sx[i], cy = sy[i];

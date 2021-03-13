@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
-namespace CASTOR2.Core.Base.Operations
+namespace CASTOR2.Core.Base
 {
     public static class OperationHelperExtensions
     {
@@ -33,6 +34,10 @@ namespace CASTOR2.Core.Base.Operations
             int index = BinaryStringSearch(list, item);
             index = index < 0 ? ~index : index;
             list.Insert(index, item);
+        }
+        public static IEnumerable<T> SortMathObjects<T>(this IEnumerable<T> mobjs) where T : MathObject
+        {
+            return mobjs.OrderBy(x => x, MathObject.MathObjectComparer);
         }
     }
 }
