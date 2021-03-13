@@ -17,4 +17,8 @@ namespace CASTOR2.Core.Base.Interfaces
     {
 
     }
+    public interface IVectorField<TVector, TField> : IAdd<TVector>, IMultiply<TVector, TField>
+    {
+
+    }
 }

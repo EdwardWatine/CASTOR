@@ -7,7 +7,7 @@ using CASTOR2.Core.Base.Operations.Interfaces;
 namespace CASTOR2.Core.Base.Operations.Templates
 {
     public class AddTemplate<TArgument, TExplicit, TField, TFieldExplicit, TMultiply> where TExplicit : TArgument, IAdd<TExplicit>, IEquatable<TExplicit> 
-        where TArgument : MathObject, IMathType<TArgument>, IAdd<TArgument>, IMultiply<TArgument, TField> where TField : MathObject, IField<TField>
+        where TArgument : MathObject, IMathType<TArgument>, IVectorField<TArgument, TField> where TField : MathObject, IField<TField>
         where TFieldExplicit : TField, INumeric where TMultiply : TArgument, IAssociativeOperation<TArgument, TField>
     {
         private readonly TExplicit ExplicitZero;
@@ -67,8 +67,8 @@ namespace CASTOR2.Core.Base.Operations.Templates
             return newArgs;
         }
     }
-    public class AddTemplate<TField, TExplicit, TMultiply> where TExplicit : TField, IMultiply<TExplicit>, IAdd<TExplicit>, IEquatable<TExplicit>
-        where TField : MathObject, IMathType<TField>, IField<TField> where TMultiply : TField, IAssociativeOperation<TField, TField>
+    public class AddTemplate<TField, TExplicit, TMultiply> where TExplicit : TField, IAdd<TExplicit>, IEquatable<TExplicit>
+        where TField : MathObject, IMathType<TField>, IField<TField> where TMultiply : TField, IAssociativeOperation<TField>
     {
         private readonly TExplicit One;
         private readonly TExplicit Zero;
@@ -100,7 +100,7 @@ namespace CASTOR2.Core.Base.Operations.Templates
                     {
                         if (!found && fieldObj is TExplicit expl)
                         {
-                            numeric = numeric.Multiply(expl);
+                            numeric = expl;
                             found = true;
                         }
                         else
