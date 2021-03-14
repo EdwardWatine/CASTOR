@@ -64,9 +64,15 @@ namespace CASTOR2.Core.Base.NumberTypes.Real
         {
             return this;
         }
+        private string stringrepr;
         public override string ToString()
         {
-            return string.Join("+", Arguments);
+            if (stringrepr != null)
+            {
+                return stringrepr;
+            }
+            stringrepr = AddTemplateBase.GenerateString(Arguments);
+            return stringrepr;
         }
     }
 }

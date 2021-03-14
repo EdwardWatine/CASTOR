@@ -1,12 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CASTOR2.Core.Base.Interfaces;
 using CASTOR2.Core.Base.Operations.Interfaces;
 
 namespace CASTOR2.Core.Base.Operations.Templates
 {
-    public class AddTemplate<TArgument, TExplicit, TField, TFieldExplicit, TMultiply> where TExplicit : TArgument, IAdd<TExplicit>, IEquatable<TExplicit> 
+    public abstract class AddTemplateBase
+    {
+        public static string GenerateString(IEnumerable<object> arguments)
+        {
+            StringBuilder builder = new StringBuilder();
+            int count = 0;
+            foreach (object arg in arguments)
+            {
+                string s = arg.ToString();
+                if (count != 0 && s[0] != '-')
+                {
+                    builder.Append('+');
+                }
+                bool brackets = OperatorPrecendence.IsPrecedenceLess(arg.GetType(), Precedence.Addition);
+                if (brackets)
+                {
+                    builder.Append('(');
+                }
+                builder.Append(arg);
+                if (brackets)
+                {
+                    builder.Append(')');
+                }
+            }
+            return builder.ToString();
+        }
+    }
+    public class AddTemplate<TArgument, TExplicit, TField, TFieldExplicit, TMultiply> : AddTemplateBase
+        where TExplicit : TArgument, IAdd<TExplicit>, IEquatable<TExplicit> 
         where TArgument : MathObject, IMathType<TArgument>, IVectorField<TArgument, TField> where TField : MathObject, IField<TField>
         where TFieldExplicit : TField, INumeric where TMultiply : TArgument, IAssociativeOperation<TArgument, TField>
     {
@@ -67,7 +96,8 @@ namespace CASTOR2.Core.Base.Operations.Templates
             return newArgs;
         }
     }
-    public class AddTemplate<TField, TExplicit, TMultiply> where TExplicit : TField, IAdd<TExplicit>, IEquatable<TExplicit>
+    public class AddTemplate<TField, TExplicit, TMultiply> : AddTemplateBase
+        where TExplicit : TField, IAdd<TExplicit>, IEquatable<TExplicit>
         where TField : MathObject, IMathType<TField>, IField<TField> where TMultiply : TField, IAssociativeOperation<TField>
     {
         private readonly TExplicit One;
